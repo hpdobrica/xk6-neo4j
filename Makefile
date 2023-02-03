@@ -19,7 +19,7 @@ build:
 	XK6_RACE_DETECTOR=1 \
 	xk6 build \
 		--with github.com/grafana/xk6-client-prometheus-remote@latest \
-		--with github.com/mikeblum/xk6-neo4j=.
+		--with github.com/hpdobrica/xk6-neo4j=.
 
 ## clean: Removes any previously created build artifacts.
 clean:
