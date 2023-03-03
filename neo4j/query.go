@@ -59,6 +59,26 @@ func (n *Neo4j) Read(cypherQuery string, params keyValue) (records, error) {
 	return result.(records), nil
 }
 
+func (n *Neo4j) Write(cypherQueries []string, params []keyValue) error {
+	driver := *n.driver
+	session := driver.NewSession(neo4j.SessionConfig{})
+	defer session.Close()
+
+	_, err := session.WriteTransaction(func(tx neo4j.Transaction) (interface{}, error) {
+		for i, cypherQuery := range cypherQueries {
+			var _, err = tx.Run(cypherQuery, params[i])
+
+			if err != nil {
+				return nil, err
+			}
+
+		}
+		return nil, nil
+	})
+
+	return err
+}
+
 func (n *Neo4j) ListPools() (records, error) {
 	driver := *n.driver
 	session := driver.NewSession(neo4j.SessionConfig{})
